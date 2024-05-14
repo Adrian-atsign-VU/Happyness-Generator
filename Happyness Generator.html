@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happyness Generator</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="icon" type="image/x-icon" href="Happyness.png">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #1a1a1a; /* Red pastel background */
+    }
+    #container {
+        text-align: center;
+    }
+    input[type="number"] {
+        padding: 10px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 5px;
+        outline: none;
+        font-size: 18px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #434343; /* Red pastel button */
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 18px;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #535353; /* Darker red on hover */
+    }
+    #result {
+        font-size: 36px;
+        margin-top: 20px;
+        font-weight: bold;
+        color: #cecece;
+        display: inline-block;
+    }
+    .animate {
+        animation: countup 2s forwards; /* Apply countup animation */
+    }
+    @keyframes countup {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    .icon {
+        font-size: 24px;
+        color: #dcdcdc; /* Red pastel icon color */
+        margin-right: 10px;
+    }
+    #details {
+        margin-top: 10px;
+        font-size: 16px;
+        color: #b9b9b9;
+    }
+    
+    #titleh1{
+      color: #b8b8b8;
+    }
+    #cred{
+      color: #c8c8c8;
+    }
+</style>
+</head>
+<body>
+<div id="container">
+    <h1 id="titleh1"><i class="fas fa-calculator icon"></i> Happyness Generator</h1>
+    <input type="number" id="inputAmount" step="0.01" placeholder="Enter starting amount">
+    <button onclick="generateNumber()">Generate <i class="fas fa-random icon"></i></button>
+    <div id="result"></div>
+    <div id="details"></div>
+    <br>
+    <input type="number" id="goalAmount" step="0.01" placeholder="Enter goal amount">
+    <button onclick="calculateIterations()">Calculate Iterations <i class="fas fa-calculator icon"></i></button>
+    <br>
+    <p id="cred">Made By Adrian</p>
+</div>
+
+<script>
+function generateNumber() {
+    const inputNumber = parseFloat(document.getElementById("inputAmount").value);
+    if (!isNaN(inputNumber)) {
+        const extra = Math.random() * 11 + 5; // Random float between 5 and 15
+        const newNumber = inputNumber + (inputNumber * extra / 100);
+        const profit = newNumber - inputNumber;
+        const resultElement = document.getElementById("result");
+        const detailsElement = document.getElementById("details");
+        resultElement.innerHTML = "$" + newNumber.toFixed(2);
+        detailsElement.innerHTML = `
+            <p>Number you need to reach: $${newNumber.toFixed(2)}</p>
+            <p>Profit: $${profit.toFixed(2)}</p>
+            <p>Percentage increase: ${extra.toFixed(2)}%</p>
+        `;
+        resultElement.classList.add("animate"); // Add animation class
+    } else {
+        document.getElementById("result").innerText = "Please enter a valid number.";
+        document.getElementById("details").innerText = "";
+    }
+}
+
+function calculateIterations() {
+    const startingAmount = parseFloat(document.getElementById("inputAmount").value);
+    const goalAmount = parseFloat(document.getElementById("goalAmount").value);
+    if (!isNaN(startingAmount) && !isNaN(goalAmount)) {
+        let currentAmount = startingAmount;
+        let iterations = 0;
+        while (currentAmount < goalAmount) {
+            const extra = Math.random() * 11 + 5; // Random float between 5 and 15
+            currentAmount += currentAmount * extra / 100;
+            iterations++;
+        }
+        document.getElementById("result").innerHTML = `It will take ${iterations} iterations to reach $${goalAmount.toFixed(2)} from $${startingAmount.toFixed(2)}.`;
+        document.getElementById("details").innerText = "";
+    } else {
+        document.getElementById("result").innerText = "Please enter valid starting and goal amounts.";
+        document.getElementById("details").innerText = "";
+    }
+}
+</script>
+</body>
+</html>
